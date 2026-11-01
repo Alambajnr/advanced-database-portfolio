@@ -1,0 +1,86 @@
+{
+  "$comment": "NovaPay Document Model Schemas for High-Velocity Telemetry and Webhooks",
+  "collections": {
+    "customer_audit_events": {
+      "validator": {
+        "$jsonSchema": {
+          "bsonType": "object",
+          "required": ["event_id", "customer_id", "event_type", "timestamp", "device_telemetry"],
+          "properties": {
+            "event_id": {
+              "bsonType": "string",
+              "description": "Cryptographically secure UUID v4 string"
+            },
+            "customer_id": {
+              "bsonType": "string",
+              "description": "Foreign key reference matching customer_id in PostgreSQL"
+            },
+            "event_type": {
+              "enum": [
+                "LOGIN_ATTEMPT",
+                "BIOMETRIC_AUTH_VERIFIED",
+                "PASSWORD_CHANGE",
+                "PIN_RETRY_EXCEEDED",
+                "BENEFICIARY_ADDED",
+                "HIGH_VALUE_TRANSFER_ATTEMPT"
+              ]
+            },
+            "timestamp": {
+              "bsonType": "date"
+            },
+            "device_telemetry": {
+              "bsonType": "object",
+              "required": ["device_id", "os_platform", "ip_address"],
+              "properties": {
+                "device_id": { "bsonType": "string" },
+                "device_model": { "bsonType": "string" },
+                "os_platform": { "enum": ["iOS", "Android", "Web", "macOS", "Windows"] },
+                "app_version": { "bsonType": "string" },
+                "ip_address": { "bsonType": "string" },
+                "geolocation": {
+                  "bsonType": "object",
+                  "properties": {
+                    "city": { "bsonType": "string" },
+                    "region": { "bsonType": "string" },
+                    "country": { "bsonType": "string" },
+                    "latitude": { "bsonType": "number" },
+                    "longitude": { "bsonType": "number" }
+                  }
+                },
+                "is_rooted_jailbroken": { "bsonType": "bool" },
+                "is_emulator": { "bsonType": "bool" }
+              }
+            },
+            "risk_assessment": {
+              "bsonType": "object",
+              "properties": {
+                "velocity_risk_score": { "bsonType": "number", "minimum": 0, "maximum": 100 },
+                "risk_flags": {
+                  "bsonType": "array",
+                  "items": { "bsonType": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "payment_webhook_payloads": {
+      "validator": {
+        "$jsonSchema": {
+          "bsonType": "object",
+          "required": ["webhook_id", "gateway_provider", "received_at", "raw_payload"],
+          "properties": {
+            "webhook_id": { "bsonType": "string" },
+            "gateway_provider": { "enum": ["STRIPE", "PAYSTACK", "FLUTTERWAVE", "SWIFT_GPI", "INTERSWITCH"] },
+            "received_at": { "bsonType": "date" },
+            "http_headers": { "bsonType": "object" },
+            "raw_payload": { "bsonType": "object" },
+            "processing_status": { "enum": ["RECEIVED", "PARSED", "PROCESSED", "IGNORED", "FAILED"] },
+            "processed_transaction_ref": { "bsonType": ["string", "null"] }
+          }
+        }
+      }
+    }
+  }
+}
