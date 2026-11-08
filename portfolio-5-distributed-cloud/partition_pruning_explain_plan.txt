@@ -1,0 +1,28 @@
+================================================================================
+POSTGRESQL 16 DECLARATIVE RANGE PARTITIONING & PARTITION PRUNING LOG
+Master Table: transactions_partitioned | Partitions: transactions_2026_q1..q4
+================================================================================
+
+QUERY UNDER TEST:
+SELECT COUNT(*), SUM(amount) AS total_q1_volume
+FROM transactions_partitioned
+WHERE initiated_at >= '2026-01-15 00:00:00+00' 
+  AND initiated_at <  '2026-03-01 00:00:00+00';
+
+EXPLAIN (ANALYZE, BUFFERS, COSTS) OUTPUT:
+Aggregate  (cost=42.15..42.16 rows=1 width=40) (actual time=0.812..0.814 rows=1 loops=1)
+  Buffers: shared hit=28
+  ->  Seq Scan on transactions_2026_q1 transactions_partitioned  (cost=0.00..38.50 rows=730 width=16) (actual time=0.021..0.512 rows=730 loops=1)
+        Filter: ((initiated_at >= '2026-01-15 00:00:00+00'::timestamptz) AND (initiated_at < '2026-03-01 00:00:00+00'::timestamptz))
+        Buffers: shared hit=28
+Planning Time: 0.198 ms
+Execution Time: 0.852 ms
+
+TECHNICAL VERIFICATION (PARTITION PRUNING IN ACTION):
+1. Partitions Checked: ONLY 'transactions_2026_q1'.
+2. Partitions Pruned / Eliminated:
+   - transactions_2026_q2 (PRUNED)
+   - transactions_2026_q3 (PRUNED)
+   - transactions_2026_q4 (PRUNED)
+   - transactions_default (PRUNED)
+3. 75% to 80% of unnecessary table scans were completely eliminated at plan time.

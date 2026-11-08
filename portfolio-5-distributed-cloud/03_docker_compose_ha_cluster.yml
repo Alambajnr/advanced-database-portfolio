@@ -1,0 +1,77 @@
+version: '3.8'
+
+# ==============================================================================
+# MIT 8103: ADVANCED DATABASE SYSTEMS - CONTINUOUS ASSESSMENT
+# PORTFOLIO 5: DISTRIBUTED AND CLOUD DATABASE EXERCISE
+# FILE: DOCKER COMPOSE CONFIGURATION FOR POSTGRESQL STREAMING REPLICATION HA CLUSTER
+# ==============================================================================
+
+networks:
+  novapay-net:
+    driver: bridge
+
+volumes:
+  pg_primary_data:
+  pg_replica_data:
+
+services:
+  # ----------------------------------------------------------------------------
+  # 1. PRIMARY WRITER NODE (Read / Write)
+  # ----------------------------------------------------------------------------
+  pg-primary:
+    image: postgres:16-alpine
+    container_name: novapay-pg-primary
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: SecretPrimaryPassword123!
+      POSTGRES_DB: novapay_db
+      PGDATA: /var/lib/postgresql/data/pgdata
+    command: >
+      postgres 
+        -c wal_level=replica 
+        -c max_wal_senders=10 
+        -c max_replication_slots=10 
+        -c hot_standby=on 
+        -c synchronous_commit=on 
+        -c synchronous_standby_names='pg-replica'
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_primary_data:/var/lib/postgresql/data
+    networks:
+      - novapay-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d novapay_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ----------------------------------------------------------------------------
+  # 2. SYNCHRONOUS HOT STANDBY REPLICA (Read-Only / Zero Data Loss)
+  # ----------------------------------------------------------------------------
+  pg-replica:
+    image: postgres:16-alpine
+    container_name: novapay-pg-replica
+    depends_on:
+      pg-primary:
+        condition: service_healthy
+    environment:
+      PGUSER: postgres
+      PGPASSWORD: SecretPrimaryPassword123!
+    command: >
+      bash -c "
+        rm -rf /var/lib/postgresql/data/* &&
+        pg_basebackup -h pg-primary -D /var/lib/postgresql/data -U postgres -vP -R -X stream &&
+        postgres -c hot_standby=on
+      "
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_replica_data:/var/lib/postgresql/data
+    networks:
+      - novapay-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
