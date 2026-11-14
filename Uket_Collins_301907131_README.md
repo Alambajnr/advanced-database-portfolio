@@ -4,7 +4,7 @@
 
 ---
 
-## 👨‍🎓 Candidate and Module Information
+## Candidate and Module Information
 
 | Field | Specification |
 | :--- | :--- |
@@ -18,7 +18,7 @@
 
 ---
 
-## 🏛️ Executive Summary & Selected Case Study: NovaPay
+## Executive Summary & Selected Case Study: NovaPay
 
 ### 1.1 Organisation Profile & System Mission
 **NovaPay Financial Technologies Ltd.** is a licensed digital neo-banking and payments infrastructure platform providing:
@@ -42,7 +42,7 @@ The core database engine represents the central operational backbone of NovaPay.
 
 ---
 
-## 📁 Repository Directory Architecture
+## Repository Directory Architecture
 
 This repository strictly matches the specification in Section 5 of the Continuous Assessment guidelines, containing native technical files (`.sql`, `.js`, `.json`, `.yml`), actual image diagrams (`.jpg`, `.png`), raw benchmark logs (`.txt`, `.log`), and dedicated activity documentation:
 
@@ -97,7 +97,7 @@ advanced-database-portfolio/
 
 ---
 
-## 📐 Portfolio 1: Database Design, Schema & Normalisation
+## Portfolio 1: Database Design, Schema & Normalisation
 
 ### 2.1 Relational Architecture in PostgreSQL 16
 The core relational database is deployed under the dedicated `novapay_core` PostgreSQL schema. It enforces strict domain constraints, surrogate UUID primary keys, and referential actions:
@@ -138,7 +138,7 @@ The relational schema was synthesized from an unnormalized flat transaction slip
 
 ---
 
-## ⚡ Portfolio 2: Query Processing and Optimisation
+## Portfolio 2: Query Processing and Optimisation
 
 ### 3.1 Workload Scale & Synthetic Data Generation
 To demonstrate query optimization over non-trivial volume, a scalable synthetic data generator was developed using PostgreSQL set-returning functions (`generate_series()`, `random()`, array slicing, and interval manipulation):
@@ -171,7 +171,7 @@ Four mission-critical business queries were implemented:
 
 ---
 
-## 🔒 Portfolio 3: Transactions and Concurrency
+## Portfolio 3: Transactions and Concurrency
 
 ### 4.1 ACID Guarantees in NovaPay
 - **Atomicity:** The `transfer_funds_atomic` stored procedure executes debit adjustments, credit adjustments, transaction logging, and ledger journal insertions in a single transaction. If any check fails, all operations roll back entirely.
@@ -188,7 +188,7 @@ Four mission-critical business queries were implemented:
 
 ---
 
-## 🍃 Portfolio 4: NoSQL and Advanced Data Models
+## Portfolio 4: NoSQL and Advanced Data Models
 
 ### 5.1 Polyglot Persistence Architecture Rationale
 NovaPay uses a **Polyglot Persistence Architecture**:
@@ -218,7 +218,7 @@ A multi-stage aggregation pipeline aggregates sliding 24-hour windows:
 
 ---
 
-## ☁️ Portfolio 5: Distributed and Cloud Database Architecture
+## Portfolio 5: Distributed and Cloud Database Architecture
 
 ### 6.1 Multi-Region High-Availability & Disaster Recovery Topology
 To ensure 99.999% availability ("five nines") and sub-100ms API response latencies, NovaPay deploys a resilient, multi-region distributed cloud topology on AWS / GCP:
@@ -241,7 +241,7 @@ All accounts, profile details, and outgoing orders belonging to a single custome
 
 ---
 
-## 💡 Individual Technical Reflection
+## Individual Technical Reflection
 
 ### 7.1 Architectural Trade-offs & Design Decisions
 The primary architectural challenge was resolving the conflict between pure relational normalisation and high-throughput query performance. In theory, an account balance should never be stored, but rather computed dynamically from historical ledger entries. In practice, doing so on every card swipe creates severe CPU and I/O bottlenecks. Adopting controlled denormalization—maintaining a cached running balance that is updated atomically alongside immutable double-entry records—provided sub-millisecond balance inquiries while preserving double-entry integrity.
@@ -254,7 +254,7 @@ This practical portfolio consolidated my understanding of advanced database syst
 
 ---
 
-## 📜 Academic Integrity and AI Use Declaration
+## Academic Integrity and AI Use Declaration
 
 In strict compliance with Section 11 of the Continuous Assessment specification, I declare that:
 1. **Statement of Authorship:** This submission is my individual work. All database schemas, stored procedures, indexing benchmarks, NoSQL models, and architectural analyses represent my individual effort and technical understanding.
@@ -265,7 +265,7 @@ In strict compliance with Section 11 of the Continuous Assessment specification,
 
 ---
 
-## 📚 References & Technical Bibliography
+## References & Technical Bibliography
 
 1. Central Bank of Nigeria (CBN). (2020). *Regulatory Framework for the Operations of Electronic Payments and Financial Services*.
 2. Date, C. J. (2019). *Database Design and Relational Theory: Normal Forms and All That Jazz*. 2nd ed. O'Reilly Media.
