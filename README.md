@@ -58,15 +58,4 @@ advanced-database-portfolio/
 
 ---
 
-##  Alignment with Assessment Marking Rubric (40 Marks)
 
-| Assessment Criteria | Marks Allocated | Demonstration in Portfolio Repository |
-| :--- | :---: | :--- |
-| **Technical Correctness** | **8** | Syntactically flawless PostgreSQL DDL/DML, PL/pgSQL stored procedures, and modern MongoDB Shell scripts. |
-| **Database Design Quality** | **6** | Domain-rich relational schema in `portfolio-1`, formal normalisation to BCNF, and balanced double-entry financial bookkeeping. |
-| **Practical Implementation** | **8** | Fully executable scripts across all 5 modules with seed datasets (150k+ rows), runnable transaction procedures, and Docker HA orchestration. |
-| **Query & Performance Analysis** | **5** | Rigorous quantitative benchmarking in `portfolio-2` showing a 99.66% reduction in query latency through B-Tree, partial, and covering indexes. |
-| **Advanced Concepts Application** | **5** | Depth in ACID transaction isolation, pessimistic vs optimistic locking, CAP/PACELC theorems, declarative partitioning, and Raft consensus. |
-| **Documentation & GitHub Organisation** | **5** | Clean modular folder structure matching Section 5, native file types, subfolder READMEs, and explicit reproduction steps. |
-| **Technical Reflection & Understanding**| **3** | Critical engineering reflection analyzing design trade-offs, challenges overcome, and academic integrity AI declaration. |
-| **Total Marks** | **40** | **Complete Full-Marks Submission Package** |
