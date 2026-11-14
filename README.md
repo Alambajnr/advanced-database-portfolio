@@ -4,7 +4,7 @@
 
 ---
 
-## 🏛️ Executive Summary & Selected Organisation
+##  Executive Summary & Selected Organisation
 
 **Organisation Name:** NovaPay Financial Technologies Ltd.  
 **System Nature:** Core Digital Banking, Multi-Currency Wallet & High-Throughput Payment Processing Platform.  
@@ -12,7 +12,7 @@
 
 ---
 
-## 📁 Repository Directory Architecture
+## Repository Directory Architecture
 
 This repository strictly matches the specification in Section 5 of the Continuous Assessment guidelines, containing native technical files (`.sql`, `.js`, `.json`, `.yml`), actual image diagrams (`.jpg`, `.png`), raw benchmark logs (`.txt`, `.log`), and exactly one `README.md` per folder:
 
@@ -58,7 +58,7 @@ advanced-database-portfolio/
 
 ---
 
-## 🎯 Alignment with Assessment Marking Rubric (40 Marks)
+##  Alignment with Assessment Marking Rubric (40 Marks)
 
 | Assessment Criteria | Marks Allocated | Demonstration in Portfolio Repository |
 | :--- | :---: | :--- |
